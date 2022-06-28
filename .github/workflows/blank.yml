@@ -17,4 +17,4 @@ jobs:
         with:
           workbook_dir: tests
           env: staging
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.TOKEN }}
