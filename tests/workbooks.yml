@@ -1,0 +1,12 @@
+workbooks:
+    - name: Obesity
+      file_path: Superstore.twbx
+      project_path: Samples/Regional
+      option:
+        tags:
+          - sample
+          - temp
+        hidden_views:
+          - Event by day
+        show_tabs: true
+        description: Sample description
