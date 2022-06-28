@@ -1,5 +1,5 @@
 workbooks:
-    - name: Obesity
+    - name: Superstore
       file_path: Superstore.twb
-      project_path: Samples/Regional
+      project_path: Samples/Superstore
      
