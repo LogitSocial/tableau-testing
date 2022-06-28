@@ -2,8 +2,4 @@ workbooks:
     - name: Obesity
       file_path: Superstore.twb
       project_path: Samples/Regional
-      
-        hidden_views:
-          - Event by day
-
-        description: Sample description
+     
