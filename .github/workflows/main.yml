@@ -1,4 +1,4 @@
-name: IO(Heroku) release deploy
+name: Testing
 
 on:
  workflow_dispatch:
@@ -6,11 +6,9 @@ on:
    inputs:
      test:
        type: number
-       description: '60 second pause between steps'
+       description: 'Testing Number'
        required: true
      
-
-
 
 jobs:
  release_deploy:
@@ -19,4 +17,4 @@ jobs:
    
    steps:
      - name: Print
-       run: echo "Hello World"
+       run: echo "value ${{ github.event.inputs.test }}"
