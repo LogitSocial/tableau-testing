@@ -1,13 +1,13 @@
 name: Testing
 
-on:
- workflow_dispatch:
-
+on: 
+ workflow_call:
    inputs:
      test:
-       type: number
        description: 'Testing Number'
        required: true
+       type: number
+       default: 0 
      
 
 jobs:
