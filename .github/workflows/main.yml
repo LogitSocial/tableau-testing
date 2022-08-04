@@ -4,88 +4,19 @@ on:
  workflow_dispatch:
 
    inputs:
-     pauses:
-       default: 'yes'
+     test:
+       type: number
        description: '60 second pause between steps'
        required: true
      
-     dry_run:
-       default: 'yes'
-       description: 'yes for dry-run release'
-       required: true
 
-
-     applications:
-       default: 'api queues vault orders pop pix app-center'
-       description: 'list of apps to release/deploy to PROD'
-       required: true
-
-     db_migrate_applications:
-       default: ''
-       description: 'apps to db:migrate: vault api'
-       required: false
-     
-     release_iteration:
-       default: '1'
-       description: 'iteration of release/deploy for a sprint release'
-       required: true
 
 
 jobs:
  release_deploy:
    name: release deploy
    runs-on: ubuntu-latest
-   timeout-minutes: 160
+   
    steps:
-     - name: Authenticate with GCP
-       uses: google-github-actions/auth@v0
-       with:
-         credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_PRODUCTION }}
-
-     - name: Set up Cloud SDK
-       uses: google-github-actions/setup-gcloud@v0
-
-     - name: Use gcloud CLI
-       run: gcloud info
-
-     - name: Load GCP secrets
-       id: secrets
-       uses: 'google-github-actions/get-secretmanager-secrets@v0'
-       with:
-         secrets: |-
-           platform_slack_notification_email:production-applications-89557/PLATFORM_SLACK_NOTIFICATION_EMAIL
-           platform_slack_notification_password:production-applications-89557/PLATFORM_SLACK_NOTIFICATION_PASSWORD
-           target_process_token:production-applications-89557/TARGET_PROCESS_TOKEN
-
-
-     - name: release/deploy
-       env:
-         APPLICATIONS: ${{ github.event.inputs.applications }}
-         DB_MIGRATE_APPLICATIONS: ${{ github.event.inputs.db_migrate_applications }}
-         DRY_RUN: ${{ github.event.inputs.dry_run }}
-         PAUSES: ${{ github.event.inputs.pauses }}
-         RELEASE_ITERATION: ${{ github.event.inputs.release_iteration }}
-         TARGET_PROCESS_TOKEN: ${{ steps.secrets.outputs.target_process_token }}
-
-
-       id: notes
-       run: |-
-         APPLICATIONS=(${{ env.APPLICATIONS }})
-         DB_MIGRATE_APPLICATIONS=(${{ env.DB_MIGRATE_APPLICATIONS }})
-         DRY_RUN=${{ env.DRY_RUN }}
-         PAUSES=${{ env.PAUSES }}
-         RELEASE_ITERATION=${{ env.RELEASE_ITERATION }}
-         TARGET_PROCESS_TOKEN=${{ env.TARGET_PROCESS_TOKEN }}
-         APPLICATIONS=$(echo "${APPLICATIONS[@]}")
-         DB_MIGRATE_APPLICATIONS=$(echo "${DB_MIGRATE_APPLICATIONS[@]}")
-         echo "LAUNCHING release script with following parameters:"
-         echo "DRY_RUN: $DRY_RUN"
-         echo "PAUSES: $PAUSES"
-         echo "APPLICATIONS: $APPLICATIONS"
-         echo "DB_MIGRATE_APPLICATIONS: $DB_MIGRATE_APPLICATIONS"
-         echo "RELEASE_ITERATION: $RELEASE_ITERATION"
-         PROXY_COMMAND="gcloud compute ssh --zone "us-central1-a" "platform-proxy-machine-legacy" --tunnel-through-iap --project "develop-applications-75118" --command"
-         $PROXY_COMMAND "export TP_TOKEN=${TARGET_PROCESS_TOKEN} && export PATH='/home/runner/.rbenv/shims:/home/runner/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' && export GCM_CREDENTIAL_STORE='gpg' && echo ${DB_MIGRATE_APPLICATIONS} > /home/runner/db_migrate_list && cd /home/runner/heroku/api.cco.io && git pull && ./bin/release-deploy.sh ${PAUSES} ${DRY_RUN} ${RELEASE_ITERATION} ${APPLICATIONS}"
-       shell: bash
-
-
+     - name: Print
+       run: echo "Hello World"
